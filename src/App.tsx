@@ -7,7 +7,6 @@ import Content from "./components/Content";
 
 function App() {
   const aArr = getAQuestion(questions);
-  console.log("aArr", aArr);
   const [page, setPage] = useState(1);
 
   const index = useMemo(() => page - 1, [page]);

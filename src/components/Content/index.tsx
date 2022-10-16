@@ -36,8 +36,8 @@ export default ({ content }: { content: string }) => {
  * @param pA 段落 A
  */
 function getAnswer(pA: string) {
-  const answer = pA.split("答案")[1];
-
+  let answer = pA.split("答案")[1];
+  answer = answer.replace(/\./g, '．')
   const [not, ...allAnswers] = answer.split("．");
   return allAnswers.map((item) => item[0]);
 }
@@ -47,8 +47,7 @@ function getAnswer(pA: string) {
  * @param pA 段落 A
  */
 function getQuestions(pA: string) {
-  const [not, ...questions] = pA.split("（   ）");
-  console.log("questions", questions);
-
+  const question = pA.split("答案")[0];
+  const [not, ...questions] = question.split("（   ）");
   return questions;
 }
