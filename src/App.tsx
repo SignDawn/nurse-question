@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { questions } from "./assets/questions";
-import { Pagination } from "antd";
+import { Pagination, Tabs } from "antd";
 import Content from "./components/Content";
+import MultipleTab, { getTypeQuestions } from "./components/MultipleTab";
 
 function App() {
   const aArr = getAQuestion(questions);
@@ -12,30 +12,25 @@ function App() {
   const index = useMemo(() => page - 1, [page]);
 
   return (
-    <>
-      <Content content={aArr[index]} />
-      <Pagination
-        current={page}
-        onChange={setPage}
-        total={aArr.length}
-        pageSize={1}
-      />
-    </>
+    <Tabs defaultActiveKey="choose">
+      <Tabs.TabPane tab="单选" key="choose">
+        <Content content={aArr[index]} />
+        <Pagination
+          current={page}
+          onChange={setPage}
+          total={aArr.length}
+          pageSize={1}
+        />
+      </Tabs.TabPane>
+      <Tabs.TabPane tab="多选" key="Multiple">
+        <MultipleTab />
+      </Tabs.TabPane>
+    </Tabs>
   );
 }
 
 function getAQuestion(questions: string) {
-  // const reg = /^A型题/g;
-  // const array = [...questions.matchAll(reg)];
-  // console.log('a', array);
-
-  const [not, ...arr] = questions.split("A型题");
-  const aArr = arr.map((i) => {
-    return i.split("（二）X型题")[0];
-  });
-
-  return aArr;
+  return getTypeQuestions("A型题", "（二）X型题");
 }
-
 
 export default App;
